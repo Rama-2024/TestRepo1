@@ -1,0 +1,68 @@
+sudo -i
+yum update -y
+https://prometheus.io/download/
+
+wget https://github.com/prometheus/prometheus/releases/download/v2.51.2/prometheus-2.51.2.linux-amd64.tar.gz
+
+tar -zxvf prometheus-2.51.2.linux-amd64.tar.gz
+ls
+prometheus-2.51.2.linux-amd64  prometheus-2.51.2.linux-amd64.tar.gz
+
+cd prometheus-2.51.2.linux-amd64
+ls
+console_libraries  consoles  LICENSE  NOTICE  prometheus  prometheus.yml  promtool
+
+ sudo vi /etc/systemd/system/prometheus.service
+
+
+[Unit]
+Description=Prometheus Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+User=root
+Restart=on-failure
+
+ExecStart=/root/prometheus-2.51.2.linux-amd64/prometheus --config.file=/root/prometheus-2.51.2.linux-amd64/prometheus.yml
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl status prometheus
+sudo systemctl start prometheus
+
+Node exporter
+wget https://github.com/prometheus/node_exporter/releases/download/v1.8.0/node_exporter-1.8.0.linux-amd64.tar.gz
+
+tar -zxvf node_exporter-1.8.0.linux-amd64.tar.gz
+ cd node_exporter-1.8.0.linux-amd64
+ls
+sudo vi /etc/systemd/system/node_exporter.service
+
+[Unit]
+Description=Prometheus Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+User=root
+Restart=on-failure
+
+ExecStart=/root/node_exporter-1.8.0.linux-amd64/node_exporter
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl status node_exporter
+sudo systemctl start  node_exporter
+
+
+go to prometheus serevr and take private ip address of node exporter and attach to prometheus.yml file
+
+- targets: ["172.31.9.16:9100"]
+sudo systemctl restart prometheus
+sudo systemctl status prometheus
