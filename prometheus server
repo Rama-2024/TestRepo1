@@ -66,3 +66,13 @@ go to prometheus serevr and take private ip address of node exporter and attach 
 - targets: ["172.31.9.16:9100"]
 sudo systemctl restart prometheus
 sudo systemctl status prometheus
+
+
+Install grafana in same prometheus server
+ wget https://dl.grafana.com/oss/release/grafana-10.4.2-1.x86_64.rpm
+
+ sudo yum install grafana-10.4.2-1.x86_64.rpm
+sudo /bin/systemctl enable grafana-server.service
+sudo /bin/systemctl start grafana-server.service
+sudo /bin/systemctl status grafana-server.service
+
